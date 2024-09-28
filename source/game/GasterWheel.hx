@@ -55,13 +55,13 @@ class GasterWheel extends FlxTypedContainer<GasterBlaster>
 
         if (spawnTimestamp >= spawnInterval)
         {
-            var fromX:Float = origin.x + fromOffset * Math.cos((currentBlaster / cycleCount) * Math.PI * 2.0 + angleOffset * Math.PI / 180.0 * (clockwise ? 1.0 : -1.0));
+            var fromX:Float = origin.x + fromOffset * Math.cos(((currentBlaster / cycleCount) * Math.PI * 2.0 + angleOffset * Math.PI / 180.0) * (clockwise ? 1.0 : -1.0));
 
-            var fromY:Float = origin.y + fromOffset * Math.sin((currentBlaster / cycleCount) * Math.PI * 2.0 + angleOffset * Math.PI / 180.0 * (clockwise ? 1.0 : -1.0));
+            var fromY:Float = origin.y + fromOffset * Math.sin(((currentBlaster / cycleCount) * Math.PI * 2.0 + angleOffset * Math.PI / 180.0) * (clockwise ? 1.0 : -1.0));
 
-            var toX:Float = origin.x + toOffset * Math.cos((currentBlaster / cycleCount) * Math.PI * 2.0 + angleOffset * Math.PI / 180.0 * (clockwise ? 1.0 : -1.0));
+            var toX:Float = origin.x + toOffset * Math.cos(((currentBlaster / cycleCount) * Math.PI * 2.0 + angleOffset * Math.PI / 180.0) * (clockwise ? 1.0 : -1.0));
 
-            var toY:Float = origin.y + toOffset * Math.sin((currentBlaster / cycleCount) * Math.PI * 2.0 + angleOffset * Math.PI / 180.0 * (clockwise ? 1.0 : -1.0));
+            var toY:Float = origin.y + toOffset * Math.sin(((currentBlaster / cycleCount) * Math.PI * 2.0 + angleOffset * Math.PI / 180.0) * (clockwise ? 1.0 : -1.0));
 
             var angle:Float = Math.atan2(origin.y - fromY, origin.x - fromX) * 180.0 / Math.PI;
 
