@@ -5,17 +5,29 @@ import flixel.FlxState;
 
 import flixel.math.FlxPoint;
 
+import flixel.util.FlxColor;
+
+import ui.BorderedBox;
+
 class GameState extends FlxState
 {
+    public var borderedBox:BorderedBox;
+
     public var gasterWheel:GasterWheel;
 
     override function create():Void
     {
         super.create();
 
-        FlxG.camera.zoom = 0.35;
+        FlxG.camera.bgColor = FlxColor.GRAY;
 
-        gasterWheel = new GasterWheel(32, 0.05, FlxPoint.get((FlxG.width - 640.0) * 0.5, (FlxG.height - 320.0) * 0.5), 1920.0, 1080.0, 0.0, false);
+        borderedBox = new BorderedBox(0.0, 0.0, 240.0, 240.0, 16.0, 16.0, 5.0);
+
+        borderedBox.screenCenter();
+
+        add(borderedBox);
+
+        gasterWheel = new GasterWheel(16, 0.1, FlxPoint.get((FlxG.width - 175.0) * 0.5, (FlxG.height - 112.0) * 0.5), 480.0, 320.0, 2.75, 1.75, 0.0, false);
 
         add(gasterWheel);
     }

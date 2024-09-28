@@ -20,11 +20,15 @@ class GasterWheel extends FlxTypedContainer<GasterBlaster>
 
     public var toOffset:Float;
 
+    public var scaleX:Float;
+
+    public var scaleY:Float;
+
     public var angleOffset:Float;
 
     public var clockwise:Bool;
 
-    public function new(cycleCount:Int, spawnInterval:Float, origin:FlxPoint, fromOffset:Float, toOffset:Float, angleOffset:Float, clockwise:Bool):Void
+    public function new(cycleCount:Int, spawnInterval:Float, origin:FlxPoint, fromOffset:Float, toOffset:Float, scaleX:Float, scaleY:Float, angleOffset:Float, clockwise:Bool):Void
     {
         super();
 
@@ -41,6 +45,10 @@ class GasterWheel extends FlxTypedContainer<GasterBlaster>
         this.fromOffset = fromOffset;
 
         this.toOffset = toOffset;
+
+        this.scaleX = scaleX;
+
+        this.scaleY = scaleY;
 
         this.angleOffset = angleOffset;
 
@@ -65,7 +73,7 @@ class GasterWheel extends FlxTypedContainer<GasterBlaster>
 
             var angle:Float = Math.atan2(origin.y - fromY, origin.x - fromX) * 180.0 / Math.PI;
 
-            var blaster:GasterBlaster = new GasterBlaster(1.5, 3.5, (blaster:GasterBlaster) -> remove(blaster, true).destroy(), fromX, fromY, toX, toY, angle, angle, 10.0, 5.0, 5.0);
+            var blaster:GasterBlaster = new GasterBlaster(1.5, 3.5, (blaster:GasterBlaster) -> remove(blaster, true).destroy(), fromX, fromY, toX, toY, angle, angle, scaleX, scaleY, 5.0);
 
             add(blaster);
 
