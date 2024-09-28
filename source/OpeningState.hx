@@ -1,10 +1,11 @@
 package;
 
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.FlxState;
 
 import flixel.util.typeLimit.NextState;
+
+import core.AssetMan;
 
 import ui.PerfTracker;
 
@@ -36,6 +37,8 @@ class OpeningState extends FlxState
         FlxG.drawFramerate = MathUtil.maxInt(FlxG.stage.window.displayMode.refreshRate, 144);
 
         FlxG.mouse.visible = false;
+
+        AssetMan.init();
 
         var perfTracker:PerfTracker = new PerfTracker(10.0, 5.0);
         
