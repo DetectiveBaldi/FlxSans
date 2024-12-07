@@ -1,0 +1,44 @@
+package game;
+
+import flixel.FlxG;
+import flixel.FlxState;
+
+import flixel.math.FlxPoint;
+
+import flixel.util.FlxColor;
+
+import ui.BorderedBox;
+
+class GameState extends FlxState
+{
+    public var borderedBox:BorderedBox;
+
+    public var gasterWheel:GasterWheel;
+
+    override function create():Void
+    {
+        super.create();
+
+        FlxG.camera.bgColor = FlxColor.GRAY;
+
+        borderedBox = new BorderedBox(0.0, 0.0, 240.0, 240.0, 16.0, 16.0, 5.0);
+
+        borderedBox.setSize(240.0, 240.0);
+
+        borderedBox.screenCenter();
+
+        add(borderedBox);
+
+        gasterWheel = new GasterWheel(32, 0.05, FlxPoint.get((FlxG.width - 176.0) * 0.5, (FlxG.height - 176.0) * 0.5), 480.0, 320.0, 2.75, 2.75, 0.0, false);
+
+        add(gasterWheel);
+    }
+
+    override function update(elapsed:Float):Void
+    {
+        super.update(elapsed);
+
+        if (FlxG.keys.justPressed.ESCAPE)
+            FlxG.resetState();
+    }
+}
