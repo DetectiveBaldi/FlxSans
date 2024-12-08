@@ -5,13 +5,15 @@ import flixel.FlxSprite;
 
 import flixel.group.FlxGroup;
 
-import flixel.math.FlxRect;
 import flixel.math.FlxMath;
+import flixel.math.FlxRect;
 
 import flixel.util.FlxAxes;
 
 import core.Assets;
 import core.Paths;
+
+import game.Soul;
 
 class BorderedBox extends FlxGroup
 {
@@ -124,17 +126,17 @@ class BorderedBox extends FlxGroup
     {
         super.update(elapsed);
 
-        center.scale.set(FlxMath.lerp(center.scale.x, width / center.frameWidth, resizeSpeed * elapsed), FlxMath.lerp(center.scale.y, height / center.frameHeight, resizeSpeed * elapsed));
+        center.scale.set(width / center.frameWidth + (center.scale.x - width / center.frameWidth) * Math.exp(-resizeSpeed * elapsed), height / center.frameHeight + (center.scale.y - height / center.frameHeight) * Math.exp(-resizeSpeed * elapsed));
 
         center.updateHitbox();
 
-        center.setPosition(x + (width - center.width) * 0.5, y + (height - center.height) * 0.5);
-    
-        border.scale.set(FlxMath.lerp(border.scale.x, (width + borderWidth) / border.frameWidth, resizeSpeed * elapsed), FlxMath.lerp(border.scale.y, (height + borderHeight) / border.frameHeight, resizeSpeed * elapsed));
+        center.setPosition(x + (width - center.width) * 0.5 + borderWidth * 0.5, y + (height - center.height) * 0.5 + borderHeight * 0.5);
+
+        border.scale.set((width + borderWidth) / border.frameWidth + (border.scale.x - (width + borderWidth) / border.frameWidth) * Math.exp(-resizeSpeed * elapsed), (height + borderHeight) / border.frameHeight + (border.scale.y - (height + borderHeight) / border.frameHeight) * Math.exp(-resizeSpeed * elapsed));
 
         border.updateHitbox();
 
-        border.setPosition(x - (border.width - width) * 0.5, y - (border.height - height) * 0.5);
+        border.setPosition(x + borderWidth * 0.5 - (border.width - width) * 0.5, y + borderHeight * 0.5 - (border.height - height) * 0.5);
     }
 
     public function setPosition(_x:Float = 0.0, _y:Float = 0.0):Void

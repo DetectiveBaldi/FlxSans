@@ -13,6 +13,8 @@ import core.Paths;
 
 class GasterWheel extends FlxGroup
 {
+    public var soul:Soul;
+
     public var cycleCount:Int;
 
     public var currentBlaster:Int;
@@ -39,9 +41,11 @@ class GasterWheel extends FlxGroup
 
     public var shot:FlxSound;
 
-    public function new(cycleCount:Int, spawnInterval:Float, origin:FlxPoint, fromOffset:Float, toOffset:Float, scaleX:Float, scaleY:Float, angleOffset:Float, clockwise:Bool):Void
+    public function new(soul:Soul, cycleCount:Int, spawnInterval:Float, origin:FlxPoint, fromOffset:Float, toOffset:Float, scaleX:Float, scaleY:Float, angleOffset:Float, clockwise:Bool):Void
     {
         super();
+
+        this.soul = soul;
 
         this.cycleCount = cycleCount;
 
@@ -61,13 +65,13 @@ class GasterWheel extends FlxGroup
 
         this.scaleY = scaleY;
 
-        this.angleOffset = angleOffset;
+        this.angleOffset = angleOffset + 180;
 
         this.clockwise = clockwise;
 
-        prep = FlxG.sound.load(Assets.getSound(Paths.wav("assets/sounds/game/GasterBlaster/prep"), false));
+        prep = FlxG.sound.load(Assets.getSound(Paths.wav("assets/sounds/game/GasterBlaster/prep"), false), 0.5);
 
-        shot = FlxG.sound.load(Assets.getSound(Paths.wav("assets/sounds/game/GasterBlaster/shot"), false));
+        shot = FlxG.sound.load(Assets.getSound(Paths.wav("assets/sounds/game/GasterBlaster/shot"), false), 0.5);
     }
 
     override function update(elapsed:Float):Void
@@ -103,7 +107,7 @@ class GasterWheel extends FlxGroup
 
         var angle:Float = Math.atan2(origin.y - fromY, origin.x - fromX) * 180.0 / Math.PI;
 
-        var blaster:GasterBlaster = new GasterBlaster(1.5, 3.5, (blaster:GasterBlaster) ->
+        var blaster:GasterBlaster = new GasterBlaster(soul, 1.5, 3.5, (blaster:GasterBlaster) ->
         {
             if (shot.playing)
                 shot.time = 0.0;

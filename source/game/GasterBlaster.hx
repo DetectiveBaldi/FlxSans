@@ -6,6 +6,7 @@ import flixel.group.FlxGroup;
 
 import flixel.math.FlxMath;
 
+import flixel.util.FlxCollision;
 import flixel.util.FlxTimer;
 
 import core.Assets;
@@ -13,6 +14,8 @@ import core.Paths;
 
 class GasterBlaster extends FlxGroup
 {
+    public var soul:Soul;
+
     public var timestamp:Float;
 
     public var shootTimestamp:Float;
@@ -45,9 +48,11 @@ class GasterBlaster extends FlxGroup
 
     public var beam:FlxSprite;
 
-    public function new(shootTimestamp:Float, endTimestamp:Float, onShoot:(blaster:GasterBlaster)->Void, onEnd:(blaster:GasterBlaster)->Void, fromX:Float = 0.0, fromY:Float = 0.0, toX:Float, toY:Float, fromAngle:Float, toAngle:Float, scaleX:Float, scaleY:Float, speed:Float):Void
+    public function new(soul:Soul, shootTimestamp:Float, endTimestamp:Float, onShoot:(blaster:GasterBlaster)->Void, onEnd:(blaster:GasterBlaster)->Void, fromX:Float = 0.0, fromY:Float = 0.0, toX:Float, toY:Float, fromAngle:Float, toAngle:Float, scaleX:Float, scaleY:Float, speed:Float):Void
     {
         super();
+
+        this.soul = soul;
 
         timestamp = 0.0;
 
@@ -130,19 +135,17 @@ class GasterBlaster extends FlxGroup
         
         if (timestamp >= shootTimestamp)
         {
-            blaster.alpha = FlxMath.lerp(blaster.alpha, 0.0, speed * elapsed);
-            
-            blaster.x = FlxMath.lerp(blaster.x, fromX, speed * elapsed);
+            blaster.alpha = 0.0 + (blaster.alpha - 0.0) * Math.exp(-speed * elapsed);
 
-            blaster.y = FlxMath.lerp(blaster.y, fromY, speed * elapsed);
+            blaster.setPosition(fromX + (blaster.x - fromX) * Math.exp(-speed * elapsed), fromY + (blaster.y - fromY) * Math.exp(-speed * elapsed));
 
-            beam.alpha = FlxMath.lerp(beam.alpha, 0.0, (speed * 2.0) * elapsed);
+            beam.alpha = 0.0 + (beam.alpha - 0.0) * Math.exp(-speed * 2.0 * elapsed);
         }
         else
         {
-            blaster.setPosition(FlxMath.lerp(blaster.x, toX, speed * elapsed), FlxMath.lerp(blaster.y, toY, speed * elapsed));
+            blaster.setPosition(toX + (blaster.x - toX) * Math.exp(-speed * elapsed), toY + (blaster.y - toY) * Math.exp(-speed * elapsed));
 
-            blaster.angle = FlxMath.lerp(blaster.angle, toAngle, speed * elapsed);
+            blaster.angle = toAngle + (blaster.angle - toAngle) * Math.exp(-speed * elapsed);
         }
     }
 
