@@ -4,9 +4,6 @@ import flixel.FlxSprite;
 
 import flixel.group.FlxGroup;
 
-import flixel.math.FlxMath;
-
-import flixel.util.FlxCollision;
 import flixel.util.FlxTimer;
 
 import core.Assets;
