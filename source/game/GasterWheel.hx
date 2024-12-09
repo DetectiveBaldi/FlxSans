@@ -2,8 +2,7 @@ package game;
 
 import flixel.FlxG;
 
-import flixel.group.FlxGroup;
-
+import flixel.math.FlxAngle;
 import flixel.math.FlxPoint;
 
 import flixel.sound.FlxSound;
@@ -11,10 +10,8 @@ import flixel.sound.FlxSound;
 import core.Assets;
 import core.Paths;
 
-class GasterWheel extends FlxGroup
+class GasterWheel extends Atk
 {
-    public var soul:Soul;
-
     public var cycleCount:Int;
 
     public var currentBlaster:Int;
@@ -43,9 +40,7 @@ class GasterWheel extends FlxGroup
 
     public function new(soul:Soul, cycleCount:Int, spawnInterval:Float, origin:FlxPoint, fromOffset:Float, toOffset:Float, scaleX:Float, scaleY:Float, angleOffset:Float, clockwise:Bool):Void
     {
-        super();
-
-        this.soul = soul;
+        super(soul);
 
         this.cycleCount = cycleCount;
 
@@ -97,23 +92,29 @@ class GasterWheel extends FlxGroup
 
     public function addGaster():GasterBlaster
     {
-        var fromX:Float = origin.x + fromOffset * Math.cos(((currentBlaster / cycleCount) * Math.PI * 2.0 + angleOffset * Math.PI / 180.0) * (clockwise ? 1.0 : -1.0));
+        var posCalc:Float = ((currentBlaster / cycleCount) * Math.PI * 2.0 + angleOffset * FlxAngle.TO_RAD) * (clockwise ? 1.0 : -1.0);
 
-        var fromY:Float = origin.y + fromOffset * Math.sin(((currentBlaster / cycleCount) * Math.PI * 2.0 + angleOffset * Math.PI / 180.0) * (clockwise ? 1.0 : -1.0));
+        var startX:Float = origin.x + fromOffset * Math.cos(posCalc);
 
-        var toX:Float = origin.x + toOffset * Math.cos(((currentBlaster / cycleCount) * Math.PI * 2.0 + angleOffset * Math.PI / 180.0) * (clockwise ? 1.0 : -1.0));
+        var startY:Float = origin.y + fromOffset * Math.sin(posCalc);
 
-        var toY:Float = origin.y + toOffset * Math.sin(((currentBlaster / cycleCount) * Math.PI * 2.0 + angleOffset * Math.PI / 180.0) * (clockwise ? 1.0 : -1.0));
+        var midX:Float = origin.x + toOffset * Math.cos(posCalc);
 
-        var angle:Float = Math.atan2(origin.y - fromY, origin.x - fromX) * 180.0 / Math.PI;
+        var midY:Float = origin.y + toOffset * Math.sin(posCalc);
 
-        var blaster:GasterBlaster = new GasterBlaster(soul, 1.5, 3.5, (blaster:GasterBlaster) ->
+        var angle:Float = Math.atan2(origin.y - startY, origin.x - startX) * FlxAngle.TO_DEG;
+
+        var blaster:GasterBlaster = new GasterBlaster(soul, 1.5, 3.5, startX, startY, midX, midY, startX, startY, angle, angle, angle, scaleX, scaleY, 5.0);
+
+        blaster.onShoot.addOnce(() ->
         {
             if (shot.playing)
                 shot.time = 0.0;
             else
                 shot.play();
-        }, (blaster:GasterBlaster) -> remove(blaster, true).destroy(), fromX, fromY, toX, toY, angle, angle, scaleX, scaleY, 5.0);
+        });
+
+        blaster.onEnd.addOnce(() -> remove(blaster, true).destroy());
 
         add(blaster);
 

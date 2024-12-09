@@ -25,7 +25,7 @@ class GameState extends FlxState
 
         borderedBox = new BorderedBox(0.0, 0.0, 240.0, 240.0, 16.0, 16.0, 5.0);
 
-        borderedBox.setSize(240.0, 240.0, 24.0, 24.0);
+        borderedBox.setSize(240.0, 240.0, 16.0, 16.0);
 
         borderedBox.screenCenter();
 
@@ -43,9 +43,19 @@ class GameState extends FlxState
 
         gasterWheel = new GasterWheel(soul, 32, 0.05, FlxPoint.get((FlxG.width - 176.0) * 0.5, (FlxG.height - 128.0) * 0.5), 480.0, 320.0, 2.75, 2.0, 180, false);
 
+        gasterWheel.prep.volume = 0.15;
+
         gasterWheel.prep.pitch = 1.2;
 
+        gasterWheel.shot.volume = 0.15;
+
         add(gasterWheel);
+
+        var gasterSpam:GasterSpam = new GasterSpam(soul, 0.65, 3.0, 3.0);
+
+        gasterSpam.prep.pitch = 1.2;
+
+        add(gasterSpam);
     }
 
     override function update(elapsed:Float):Void
